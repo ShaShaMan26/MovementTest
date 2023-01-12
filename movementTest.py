@@ -1,5 +1,7 @@
 '''
 Developed by Cristiano Porretta
+
+GitHub: https://github.com/ShaShaMan26/MovementTest
 '''
 
 from os import system
@@ -7,97 +9,97 @@ from msvcrt import getch
 from random import randint
 from time import sleep
 
-# initialize playspace
-columns = [["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"]]
-
-playing = True
-
-# initialize character data
-character = "55"
-charCol = int(character[0]) - 1
-charRow = int(character[1]) - 1
-
-# initializes item data
-itemCol = randint(0, 8)
-itemRow = randint(0, 8)
-
-# initializes enemy data
-enemyCol = randint(0, 8)
-enemyRow = randint(0, 8)
-
-# initialize score data
-currentScore = 0
-highScore = 0
-
-def render(charCol, charRow, charIcon):
-    '''
-    renders object in map.
-
-    Args:
-        charCol: int value for objects y position.
-        charRow: int value for objects x position.
-        charIcon: string character to represent object.
-    '''
-    global columns
-    columns[charCol].pop(charRow)
-    columns[charCol].insert(charRow, charIcon)
-
-def move(direction):
-    '''
-    Moves character
-
-    Args:
-        direction: String detailing the direction character will move in.
-    '''
-    print(direction)
-    global charCol, charRow, playing
-    if charCol != 0 and direction == "w":
-        charCol -= 1
-    elif charCol != 8 and direction == "s":
-        charCol += 1
-    elif charRow != 0 and direction == "a":
-        charRow -= 1
-    elif charRow != 8 and direction == "d":
-        charRow += 1
-    elif direction not in ["w", "s", "a", "d"]:
-        playing = False
-
-def enemyMove():
-    '''
-    Moves enemy based on character position.
-    '''
-    global columns, enemyCol, enemyRow
-    columns[enemyCol].pop(enemyRow)
-    columns[enemyCol].insert(enemyRow, "-")
-    # moves enemy in cardinal direction, not on item
-    if randint(0,1) == 1:
-        if enemyCol < charCol:
-            enemyCol += 1
-        else:
-            enemyCol -= 1
-    else:
-        if enemyRow < charRow:
-            enemyRow += 1
-        else:
-            enemyRow -= 1
-
-def itemGet():
-    '''
-    Erases item from map and generates new location.
-    '''
-    global columns, itemCol, itemRow
-    columns[itemCol].pop(itemRow)
-    columns[itemCol].insert(itemRow, "-")
-    # generates new item location different from tile character is on
-    while(itemCol == charCol and itemRow == charRow):
-        itemCol = randint(0, 8)
-        itemRow = randint(0, 8)
-
-# welcome text
-print("WASD to move. Any other input will quit program.\nCollect 'E', avoid 'Q'\n")
-
 # main loop
 while(True):
+    # initialize playspace
+    columns = [["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"], ["-","-","-","-","-","-","-","-","-"]]
+
+    playing = True
+
+    # initialize character data
+    character = "55"
+    charCol = int(character[0]) - 1
+    charRow = int(character[1]) - 1
+
+    # initializes item data
+    itemCol = randint(0, 8)
+    itemRow = randint(0, 8)
+
+    # initializes enemy data
+    enemyCol = randint(0, 8)
+    enemyRow = randint(0, 8)
+
+    # initialize score data
+    currentScore = 0
+    highScore = 0
+
+    def render(charCol, charRow, charIcon):
+        '''
+        renders object in map.
+
+        Args:
+            charCol: int value for objects y position.
+            charRow: int value for objects x position.
+            charIcon: string character to represent object.
+        '''
+        global columns
+        columns[charCol].pop(charRow)
+        columns[charCol].insert(charRow, charIcon)
+
+    def move(direction):
+        '''
+        Moves character
+
+        Args:
+            direction: String detailing the direction character will move in.
+        '''
+        print(direction)
+        global charCol, charRow, playing
+        if charCol != 0 and direction == "w":
+            charCol -= 1
+        elif charCol != 8 and direction == "s":
+            charCol += 1
+        elif charRow != 0 and direction == "a":
+            charRow -= 1
+        elif charRow != 8 and direction == "d":
+            charRow += 1
+        elif direction not in ["w", "s", "a", "d"]:
+            playing = False
+
+    def enemyMove():
+        '''
+        Moves enemy based on character position.
+        '''
+        global columns, enemyCol, enemyRow
+        columns[enemyCol].pop(enemyRow)
+        columns[enemyCol].insert(enemyRow, "-")
+        # moves enemy in cardinal direction, not on item
+        if randint(0,1) == 1:
+            if enemyCol < charCol:
+                enemyCol += 1
+            else:
+                enemyCol -= 1
+        else:
+            if enemyRow < charRow:
+                enemyRow += 1
+            else:
+                enemyRow -= 1
+
+    def itemGet():
+        '''
+        Erases item from map and generates new location.
+        '''
+        global columns, itemCol, itemRow
+        columns[itemCol].pop(itemRow)
+        columns[itemCol].insert(itemRow, "-")
+        # generates new item location different from tile character is on
+        while(itemCol == charCol and itemRow == charRow):
+            itemCol = randint(0, 8)
+            itemRow = randint(0, 8)
+
+    # welcome text
+    print("WASD to move. Any other input will quit program.\nCollect 'E', avoid 'Q'\n")
+
     while(playing):
 
         # inserts character and item into map
@@ -138,7 +140,7 @@ while(True):
 
         # detects enemy and character collision
         if charCol == enemyCol and charRow == enemyRow:
-            for num in range(0,4):
+            for num in range(0, 2):
                 # inserts character and item into map
                 render(itemCol, itemRow, "E")
                 render(enemyCol, enemyRow, "Q")
@@ -203,6 +205,7 @@ while(True):
     if input("Play again? (y/n): ").lower() != "y":
         system('cls')
         break
+    system('cls')
 
 # log off message
 system('cls')

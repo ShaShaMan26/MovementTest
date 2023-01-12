@@ -201,6 +201,7 @@ while(True):
     # lose state message
     print("Game Over\n\nFinal Score:", currentScore)
     if input("Play again? (y/n): ").lower() != "y":
+        system('cls')
         break
 
 # log off message
